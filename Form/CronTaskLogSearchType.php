@@ -30,7 +30,7 @@ class CronTaskLogSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateStart', 'dspsofts_date_picker')
+            ->add('dateStart', 'date', array('widget' => 'choice'))
             ->add('cron_task', 'entity', array(
                 'class' => 'DspSofts\CronManagerBundle\Entity\CronTask',
                 'placeholder' => 'Tout',

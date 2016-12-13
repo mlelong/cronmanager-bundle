@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DspSofts\CronManagerBundle\Validator\Constraints as DspCmAssert;
 
 /**
+ * @ORM\Table(name="cron_task")
  * @ORM\Entity(repositoryClass="DspSofts\CronManagerBundle\Entity\Repository\CronTaskRepository")
  * @UniqueEntity("name")
  */
@@ -36,17 +37,17 @@ class CronTask
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="is_unique", type="boolean")
      */
     private $isUnique = true;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
@@ -73,12 +74,12 @@ class CronTask
     private $timeout;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="last_run", type="datetime", nullable=true)
      */
     private $lastRun;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="iso_code", type="boolean")
      */
     private $relaunch = false;
 

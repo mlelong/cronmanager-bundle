@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use DspSofts\CronManagerBundle\Entity\CronTaskLog;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CronManipulator
 {
@@ -42,6 +43,10 @@ class CronManipulator
         $this->logger = $logger;
         $this->planificationChecker = $planificationChecker;
         $this->kernelRootDir = $kernelRootDir;
+    }
+
+    public function setOutput(OutputInterface $output) {
+        $this->output = $output;
     }
 
     public function checkRunningCrons()
@@ -76,16 +81,23 @@ class CronManipulator
             }
 
             if ($run) {
+
                 if ($this->logger !== null) {
                     $this->logger->info(sprintf('Running Cron Task <info>%s</info>', $cronTask->getName()));
                 }
-                $cli = 'exec ' . $this->kernelRootDir . DIRECTORY_SEPARATOR . 'console dsp:cron:runjob -c ' . $cronTask->getId() . ' &';
+                $cli = 'exec ' . $this->kernelRootDir . DIRECTORY_SEPARATOR . 'console dsp:cron:runjob -c ' . $cronTask->getId() . ' ';
+
                 if ($this->logger !== null) {
                     $this->logger->info(sprintf('Command line : <info>%s</info>', $cli));
                 }
+                $this->output->writeln(sprintf('Exec line : <info>%s</info>', $cli));
                 $process = new Process($cli);
                 $process->setTimeout(0);
-                $process->start();
+                try {
+                    $process->start();
+                } catch (\Exception $e) {
+                    $this->output->writeln($e->getMessage());
+                }
             } else {
                 if ($this->logger !== null) {
                     $this->logger->info(sprintf('Skipping Cron Task <info>%s</info>', $cronTask->getName()));

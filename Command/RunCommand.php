@@ -31,6 +31,7 @@ class RunCommand extends ContainerAwareCommand
         $output->writeln('<comment>Running Cron Tasks...</comment>');
 
         $cronManipulator = $this->getContainer()->get('dsp_cm.util.cron_manipulator');
+        $cronManipulator->setOutput($output);
         $cronManipulator->checkRunningCrons();
         $cronManipulator->runCrons();
 

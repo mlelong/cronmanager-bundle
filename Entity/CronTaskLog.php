@@ -12,10 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="DspSofts\CronManagerBundle\Entity\Repository\CronTaskLogRepository")
- * @ORM\Table(indexes={
- *      @ORM\Index(name="date_start", columns={"date_start"}),
- * 	    @ORM\Index(name="date_end", columns={"date_end"}),
- * 	    @ORM\Index(name="status", columns={"status"})
+ * @ORM\Table(name="cron_task_log",
+ *            indexes={
+ *                      @ORM\Index(name="date_start", columns={"date_start"}),
+ *                      @ORM\Index(name="date_end", columns={"date_end"}),
+ *                      @ORM\Index(name="status", columns={"status"})
  * })
  */
 class CronTaskLog
@@ -46,12 +47,12 @@ class CronTaskLog
     private $pid;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="date_start", type="datetime")
      */
     private $dateStart;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="date_end", type="datetime", nullable=true)
      */
     private $dateEnd;
 
@@ -61,7 +62,7 @@ class CronTaskLog
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="file_path", type="string", length=255)
      */
     private $filePath;
 
